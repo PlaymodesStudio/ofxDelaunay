@@ -66,7 +66,7 @@ public:
 	/// \brief getTriangleAtIndex returns the vertices of a given triangle
 	/// \param index triangle index
 	/// \return the triangle vertices
-	ITRIANGLE getTriangleAtIndex(int index);
+	const ITRIANGLE& getTriangleAtIndex(int index);
 
 	/// \brief triangulate is where all the magic happens. Call this function after points have been inserted.
 	int triangulate();

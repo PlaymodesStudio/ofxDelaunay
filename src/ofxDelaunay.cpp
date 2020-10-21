@@ -80,11 +80,8 @@ ofDefaultVec3 ofxDelaunay::getPointNear(const ofDefaultVec3& pos, float minimumD
 	return ofDefaultVec3(ret.x, ret.y, ret.z);
 }
 
-ITRIANGLE ofxDelaunay::getTriangleAtIndex(int index) {
-	if (index >= 0 && index < nTriangles) {
-		return triangles[index];
-	}
-	return ITRIANGLE();
+const ITRIANGLE& ofxDelaunay::getTriangleAtIndex(int index) {
+	return triangles[index];
 }
 
 
