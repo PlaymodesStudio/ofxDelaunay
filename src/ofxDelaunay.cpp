@@ -35,13 +35,16 @@ int ofxDelaunay::addPoint(float x, float y, float z) {
 }
 
 int ofxDelaunay::addPoint(const ofDefaultVec3& point) {
-	return addPoint(point.x, point.y, point.z);
+    int res = addPoint(point.x, point.y, point.z);
+    triangulate();
+    return res;
 }
 
 int ofxDelaunay::addPoints(const std::vector<ofDefaultVec3>& points) {
 	for (int i = 0; i < points.size(); i++) {
 		addPoint(points[i]);
 	}
+    triangulate();
 	return vertices.size();
 }
 
@@ -172,7 +175,7 @@ int ofxDelaunay::triangulate() {
 	verticesXYZ.push_back(XYZ());
 
 	//allocate space for triangle indices
-	triangles.resize(3 * nv);
+	triangles.resize(4 * nv);
 
 	Triangulate(nv, &verticesXYZ[0], &triangles[0], nTriangles);
 
@@ -200,4 +203,44 @@ void ofxDelaunay::draw() {
 	if (ofGetStyle().bFill)
 		triangleMesh.draw();
 	else triangleMesh.drawWireframe();
+}
+
+// ------------------------------------------------------------------------------------------------------
+void ofxDelaunay::debug()
+{
+    int NV = triangleMesh.getNumVertices();
+    for(int i=0;i<NV;i++)
+    {
+        cout << "Vertex : " << i << " : " << triangleMesh.getVertex(i)/ofDefaultVec2(ofGetWidth()/2,ofGetHeight()/2) << endl;
+    }
+    int NT = triangleMesh.getNumIndices();
+    for(int i=0;i<getNumTriangles();i++)
+    {
+        cout << "Triangle " << i+1 << " : " << triangleMesh.getIndex((i*3)+0) << "," << triangleMesh.getIndex((i*3)+1) << "," << triangleMesh.getIndex((i*3)+2) << endl;
+    }
+}
+
+std::vector<ofDefaultVec3> ofxDelaunay::getPointsForTriangle(int i)
+{
+    int i1 = triangleMesh.getIndex((i*3));
+    int i2 = triangleMesh.getIndex((i*3)+1);
+    int i3 = triangleMesh.getIndex((i*3)+2);
+
+    vector<ofDefaultVec3> res;
+    ofDefaultVec3 v1;
+    v1.x = triangleMesh.getVertex(i1).x;
+    v1.y = triangleMesh.getVertex(i1).y;
+    res.push_back(v1);
+
+    ofDefaultVec3 v2;
+    v2.x = triangleMesh.getVertex(i2).x;
+    v2.y = triangleMesh.getVertex(i2).y;
+    res.push_back(v2);
+
+    ofDefaultVec3 v3;
+    v3.x = triangleMesh.getVertex(i3).x;
+    v3.y = triangleMesh.getVertex(i3).y;
+    res.push_back(v3);
+
+    return res;
 }

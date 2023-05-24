@@ -55,6 +55,8 @@ public:
 	/// \return vertices in vector format
 	std::vector<ofDefaultVec3> getPointsForITriangle(const ITRIANGLE& triangle);
 
+    std::vector<ofDefaultVec3> getPointsForTriangle(int i);
+    
 	/// \brief getNumTriangles gets the total number of triangles
 	/// \return number of triangles
 	int getNumTriangles();
@@ -73,7 +75,9 @@ public:
 
 	/// \brief draw() displays the resulting Delaunay triangulation
 	void draw();
-
+    
+    void debug();
+    
 	ofMesh triangleMesh;                //< Output of triangulate();
 
 
