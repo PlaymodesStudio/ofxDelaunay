@@ -21,6 +21,7 @@ void ofxDelaunay::reset() {
 	triangles.clear();
 	triangleMesh.clear();
 	nTriangles = 0;
+    
 }
 
 // ------------------------------------------------------------------------------------------------------
@@ -36,7 +37,7 @@ int ofxDelaunay::addPoint(float x, float y, float z) {
 
 int ofxDelaunay::addPoint(const ofDefaultVec3& point) {
     int res = addPoint(point.x, point.y, point.z);
-    triangulate();
+    //triangulate();
     return res;
 }
 
@@ -44,7 +45,7 @@ int ofxDelaunay::addPoints(const std::vector<ofDefaultVec3>& points) {
 	for (int i = 0; i < points.size(); i++) {
 		addPoint(points[i]);
 	}
-    triangulate();
+    //triangulate();
 	return vertices.size();
 }
 
@@ -53,14 +54,14 @@ void ofxDelaunay::setPointAtIndex(const ofDefaultVec3& p, int index) {
 		XYZI pp; pp.x = p.x; pp.y = p.y; pp.z = p.z; pp.i = index;
 		vertices[index] = pp;
 	}
-	triangulate();
+	//triangulate();
 }
 
 void ofxDelaunay::removePointAtIndex(int index) {
 	if (index >= 0 && index < vertices.size()) {
 		vertices.erase(vertices.begin() + index);
 	}
-	triangulate();
+	//triangulate();
 }
 
 // ------------------------------------------------------------------------------------------------------
